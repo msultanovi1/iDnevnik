@@ -166,3 +166,115 @@ a.secondary {
     filter: invert();
   }
 }
+
+/* src/app/page.module.css */
+
+.homePage {
+  padding: 20px;
+}
+
+.greetingSection {
+  margin-bottom: 20px;
+}
+
+.greeting {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.welcomeMessage {
+  font-size: 16px;
+  color: #666;
+}
+
+.todaySection {
+  margin-bottom: 30px;
+}
+
+.todayHeader {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.date {
+  color: #666;
+}
+
+.scheduleTimeline {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.scheduleCard {
+  width: 250px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0; /* Prevents cards from shrinking */
+  position: relative;
+}
+
+.scheduleCard::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 20px;
+  background-color: #dcdcdc;
+}
+
+.scheduleCard:last-child::before {
+  display: none;
+}
+
+.scheduleCardContent {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.subject {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.group {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  justify-content: center;
+}
+
+.statusIcon {
+  margin-right: 5px;
+}
+
+.statusIcon.error {
+  color: #dc3545; /* Red color for not realized */
+}
+
+.statusIcon.success {
+  color: #28a745; /* Green color for realized */
+}
+
+.timelineMarker {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #666;
+}
