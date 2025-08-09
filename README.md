@@ -1,3 +1,7 @@
+## WIP
+Dodao sam kalendar, ali folder "Kalednar" je onaj u kojem je implementacija, moguće je i shift-ati čitavu stranicu ukoliko se otvori side meni.
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
