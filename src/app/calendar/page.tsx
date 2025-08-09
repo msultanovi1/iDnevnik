@@ -71,7 +71,8 @@ export default function Home() {
                   </div>
                   {item.status === 'Realizovan' && (
                     <div className={styles.statusItem}>
-                      <span className={styles.statusIcon.success}>✅</span>
+                      {/* This is the corrected line */}
+                      <span className={styles.statusIcon}>✅</span>
                       <span>Uneseno prisustvo</span>
                     </div>
                   )}

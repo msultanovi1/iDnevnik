@@ -102,15 +102,6 @@
   margin-right: 10px;
 }
 
-/* Main content area */
-.content {
-  flex-grow: 1; /* Allows the content area to take up remaining space */
-  padding: 20px;
-}
-
-/* src/app/layout.module.css */
-
-/* ... (existing styles) ... */
 
 .navLinks img {
   height: 24px; /* Set a consistent size for all header icons */
@@ -122,22 +113,37 @@
   width: auto;
 }
 
-/* src/app/layout.module.css */
-
-/* ... (existing styles) ... */
-
 .sidebar {
-  /* ... (existing sidebar styles) ... */
-  position: fixed; /* Make the sidebar fixed so it can slide in */
-  top: 51px; /* Align it right under the header */
-  left: -250px; /* Initially hide the sidebar off-screen */
-  height: calc(100vh - 51px); /* Make it full height */
-  transition: left 0.3s ease-in-out; /* Add a smooth transition effect */
+  /* ... (existing styles) ... */
+  position: fixed;
+  top: 51px;
+  left: -250px;
+  height: calc(100vh - 51px);
+  width: 250px; /* Set a fixed width for the sidebar */
+  background-color: #f0f0f0; /* Add a background color for the sidebar */
+  transition: left 0.3s ease-in-out;
   z-index: 10;
 }
 
 .sidebar.open {
-  left: 0; /* Slide the sidebar into view */
+  left: 0;
+}
+
+.mainContainer {
+  display: flex;
+  height: calc(100vh - 51px);
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 0; /* Initial state, no margin */
+  transition: margin-left 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.content.shifted {
+  margin-left: 250px; /* Shift the content to the right by the sidebar's width */
 }
 
 /* Style for the hamburger button */
@@ -153,3 +159,4 @@
   font-size: 24px;
 
 }
+

@@ -1,0 +1,77 @@
+/* src/app/kalendar/kalendar.module.css */
+
+.calendarContainer {
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+
+.dayOfWeek {
+  font-weight: bold;
+  color: #a0a0a0;
+  padding: 10px;
+}
+
+.day {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 100px;
+  position: relative;
+  text-align: left;
+}
+
+.dayNumber {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.currentDay {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.currentDay .dayNumber {
+  color: #fff;
+}
+
+.inactiveDay {
+  color: #a0a0a0;
+}
+
+.event {
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 4px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.event.classes {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.event.holiday {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.event.stateHoliday {
+  background-color: #cce5ff;
+  color: #004085;
+}

@@ -1,7 +1,7 @@
 // src/app/layout.tsx
-'use client'; // This directive is needed for using client-side features like useState
+'use client';
 
-import { useState } from 'react'; // Import the useState hook
+import { useState } from 'react';
 import './globals.css';
 import styles from './layout.module.css';
 
@@ -10,7 +10,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to track sidebar visibility
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Initially hide the sidebar
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -20,11 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <button onClick={toggleSidebar} className={styles.hamburgerButton}>
-          ☰ {/* Hamburger icon */}
+          ☰
         </button>
 
         <header className={styles.header}>
-          {/* ... (Header content remains the same) ... */}
           <div className={styles.logo}>
             <img src="/logo.png" alt="iDnevnik Logo" />
             <span>iDnevnik</span>
@@ -46,24 +45,20 @@ export default function RootLayout({
               <img src="/question_icon.png" alt="Help" />
             </a>
             <a href="#">Pomoć i podrška</a>
-            <a href="#">
-              <img src="/arrow_icon.png" alt="Sign out" />
-            </a>
+            <a href="#">&rarr;</a>
             <button>Odjavi se</button>
           </div>
         </header>
-
+        
         <div className={styles.mainContainer}>
-          {/* Sidebar */}
           <nav className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
-            {/* ... (Sidebar content remains the same) ... */}
             <div className={styles.sidebarSection}>
               <div className={styles.sidebarSectionTitle}>Općenito</div>
               <a href="#" className={styles.active}>
                 <img src="/homepage_icon.png" alt="Početna stranica" className={styles.sidebarIcon} />
                 Početna stranica
               </a>
-              <a href="#">
+              <a href="/kalendar">
                 <img src="/kalendar_icon.png" alt="Kalendar" className={styles.sidebarIcon} />
                 Kalendar
               </a>
@@ -81,9 +76,8 @@ export default function RootLayout({
               </div>
             </div>
           </nav>
-
-          {/* Main content area */}
-          <main className={styles.content}>
+          
+          <main className={`${styles.content} ${isSidebarOpen ? styles.shifted : ''}`}>
             {children}
           </main>
         </div>
