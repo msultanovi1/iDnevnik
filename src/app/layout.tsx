@@ -70,9 +70,9 @@ export default function RootLayout({
                 Razredništvo
               </a>
               <div className={styles.sidebarSection}>
-                <a href="#">Odjeljenja 8-1</a>
-                <a href="#">Odjeljenja 8-2</a>
-                <a href="#">Odjeljenja 8-3</a>
+                <a href="/odjeljenja/8-1">Odjeljenja 8-1</a>
+                <a href="/odjeljenja/8-2">Odjeljenja 8-2</a>
+                <a href="/odjeljenja/8-3">Odjeljenja 8-3</a>
               </div>
             </div>
           </nav>
