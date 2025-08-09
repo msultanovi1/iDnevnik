@@ -1,4 +1,4 @@
-##WIP
+## WIP
 Dodao sam kalendar, ali folder "Kalednar" je onaj u kojem je implementacija, moguće je i shift-ati čitavu stranicu ukoliko se otvori side meni.
 
 
