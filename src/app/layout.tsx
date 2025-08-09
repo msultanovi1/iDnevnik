@@ -44,7 +44,7 @@ export default function RootLayout({
             <a href="#">
               <img src="/question_icon.png" alt="Help" />
             </a>
-            <a href="#">Pomoć i podrška</a>
+            <a href="/pomoc-i-podrska">Pomoć i podrška</a>
             <a href="#">&rarr;</a>
             <button>Odjavi se</button>
           </div>

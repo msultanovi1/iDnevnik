@@ -1,0 +1,119 @@
+/* src/app/pomoc-i-podrska/pomoc-i-podrska.module.css */
+
+.helpPage {
+  padding: 20px;
+}
+
+.pageHeader {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.faqSection {
+  margin-bottom: 40px;
+}
+
+.faqSectionTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.faqItem {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.faqQuestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #f7f7f7;
+  transition: background-color 0.2s ease;
+}
+
+.faqQuestion:hover {
+  background-color: #e9e9e9;
+}
+
+.faqAnswer {
+  padding: 15px;
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
+  display: none; /* Initially hide the answer */
+}
+
+.faqAnswer.show {
+  display: block; /* Show the answer when the 'show' class is applied */
+}
+
+.arrowIcon {
+  font-size: 20px;
+  transition: transform 0.2s ease;
+}
+
+.arrowIcon.rotate {
+  transform: rotate(180deg);
+}
+
+.supportSection {
+  margin-top: 40px;
+}
+
+.supportTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.supportForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+}
+
+.formField label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.formField input,
+.formField textarea {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.formField textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submitButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
