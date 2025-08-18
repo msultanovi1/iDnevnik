@@ -9,8 +9,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; /* Dodajte ovo */
-  z-index: 15; /* Postavite viši z-index od sidebara */
+  position: relative; 
+  z-index: 15; 
 }
 
 .logo {
@@ -18,9 +18,9 @@
   align-items: center;
   font-size: 27px;
   font-weight: bold;
+  color: #555;
 }
 
-/* ... */
 .navLinks {
   display: flex;
   align-items: center;
@@ -162,7 +162,7 @@
 .icon {
   width: 30px;
   height: 30px;
-  color: #555; /* Primjer: Boja ikona */
+  color: #777; /* Primjer: Boja ikona */
 }
 
 /* Stilovi za ikone u bočnom meniju */
@@ -175,8 +175,9 @@
 
 /* Stil za hamburger ikonu */
 .hamburgerButton svg {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
+  color: #555;
 }
 
 .userProfile,
@@ -204,6 +205,198 @@
 }
 
 .sidebarDivider {
-  border-top: 1px solid #a1a1a1; /* Tanka, tamno siva linija */
+  border-top: 1px solid #777; /* Tanka, tamno siva linija */
   margin: 20px; /* Razmak iznad i ispod linije */
+}
+
+/* Stilovi za dashboard */
+.dashboardContainer {
+  padding: 40px;
+}
+
+.pageTitle {
+  font-size: 2.5em;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.sectionCard {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.announcementItem {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.announcementItem h3 {
+  font-size: 1em;
+  font-weight: 600;
+  color: #333;
+}
+
+.announcementItem p {
+  font-size: 0.9em;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Stilovi za vremensku liniju */
+.timelineContainer {
+  position: relative;
+  height: 50px; /* Visina cijele vremenske linije */
+}
+
+.timelineTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: #e6e9ee; /* Svjetlo siva-plava pozadina */
+  border-radius: 5px;
+  display: flex;
+}
+
+.timelineLesson {
+  position: absolute;
+  height: 100%;
+  background-color: #92a4b8; /* Tamnija siva-plava za časove */
+  border-radius: 5px;
+  border: 1px solid #7c8e9f;
+  padding: 5px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.timelineProgress {
+  position: absolute;
+  top: 100%; /* Pomaknite liniju na dno kontejnera */
+  transform: translateY(10px); /* Pomaknite je 10px ispod dna */
+  left: 0;
+  height: 4px;
+  background-color: #007bff;
+  border-radius: 5px;
+  z-index: 2; /* Ostavljamo z-index za svaki slučaj */
+}
+
+/* ... Postojeći stilovi ... */
+
+.sectionCard {
+  background-color: var(--card-background);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.verticalTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lessonCard {
+  position: relative;
+  display: flex;
+  background-color: var(--lesson-card-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.lessonCard.active {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--active-border-color);
+  transform: translateY(-2px);
+}
+
+.lessonCard.completed {
+  opacity: 0.6;
+}
+
+.lessonProgressBar {
+  width: 8px; /* Širina trake */
+  background-color: var(--progress-color);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: height 0.5s ease-out;
+}
+
+.lessonContent {
+  flex-grow: 1;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lessonSubject {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.lessonDepartment {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+.lessonTime {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+.separator {
+  border: 0;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 10px 0;
+}
+
+.lessonDescription {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  margin-top: 5px;
+}
+
+/* Dodatne varijable za boje, ako već niste definisali */
+:root {
+  --card-background: #fff;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-tertiary: #888;
+  --border-color: #e0e0e0;
+  --progress-color: #4CAF50; /* Zelena boja za progres bar */
+  --active-border-color: #4CAF50;
+  --lesson-card-bg: #f9f9f9;
 }
