@@ -73,14 +73,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <a href="#">
             <IoNotifications className={styles.icon} />
           </a>
-          <div className={styles.userProfile}>
-            <a href="#">
-              <FaUserCircle className={styles.icon} />
-            </a>
+          <a href="/profil" className={styles.userProfile}>
+            <FaUserCircle className={styles.icon} />
             <span className={styles.userProfileName}>
               {session?.user?.name || "Ime i prezime"}
             </span>
-          </div>
+          </a>
           {/* Sada je cijela grupa jedan klikabilni link */}
           <a href="/pomoc-i-podrska" className={styles.helpGroup}>
             <FaQuestionCircle className={styles.icon} />
