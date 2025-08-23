@@ -1,36 +1,69 @@
 // src/app/components/MainLayout.tsx
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import styles from '../layout.module.css';
+import { ChildProvider, useChild } from '../context/ChildContext'; // Uvozimo ChildProvider i useChild
 
-// Ikone koje koristimo
+// Uvozimo ikone koje ćemo koristiti
 import { FaBars, FaHome, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaQuestionCircle, FaBookOpen } from 'react-icons/fa';
 import { IoNotifications } from "react-icons/io5";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+// Komponenta koja se renderuje unutar ChildProvider-a
+const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const { selectedChild, setSelectedChild } = useChild();
+
+  // Mock podaci za djecu roditelja
+  const parentChildren = [
+    { id: 'child1', name: 'Petar Petrović', school: 'Prva osnovna škola' },
+    { id: 'child2', name: 'Ana Anić', school: 'Druga osnovna škola' },
+  ];
+  
+  const [currentSchoolName, setCurrentSchoolName] = useState('Osnovna škola "Ime Škole"');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Dodajemo novu funkciju s potvrdom za odjavu
   const handleSignOutClick = () => {
-    const isConfirmed = window.confirm("Želite se odjaviti?");
+    const isConfirmed = window.confirm("Želite li se sigurno odjaviti?");
     if (isConfirmed) {
+      localStorage.removeItem('selectedChild');
+      setSelectedChild(null);
       signOut({ callbackUrl: '/auth/signin' });
     }
   };
 
+  const handleChildSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const childId = e.target.value;
+    const child = parentChildren.find(c => c.id === childId);
+    if (child) {
+      setSelectedChild(child);
+      localStorage.setItem('selectedChild', JSON.stringify(child));
+      setCurrentSchoolName(child.school);
+    } else {
+      setSelectedChild(null);
+      localStorage.removeItem('selectedChild');
+      setCurrentSchoolName('Osnovna škola "Ime Škole"');
+    }
+  };
+
+  useEffect(() => {
+    if (selectedChild) {
+      setCurrentSchoolName(selectedChild.school);
+    } else if (session?.user?.role !== "RODITELJ") {
+      setCurrentSchoolName('Osnovna škola "Ime Škole"');
+    }
+  }, [selectedChild, session?.user?.role]);
+
   const authPages = ['/auth/signin', '/auth/signup', '/unauthorized'];
   const isAuthPage = authPages.includes(pathname);
 
-  // Ako je auth stranica ili korisnik nije prijavljen, prikaži samo children
   if (isAuthPage || (!session && status !== "loading")) {
     return (
       <>
@@ -39,7 +72,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     );
   }
 
-  // Loading state
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -51,7 +83,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     );
   }
 
-  // Puni layout za prijavljene korisnike
   return (
     <>
       <button onClick={toggleSidebar} className={styles.hamburgerButton}>
@@ -67,7 +98,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </div>
         </a>
         <div className={styles.navLinks}>
-          <span>Osnovna škola "Ime Škole"</span>
+          <span>{currentSchoolName}</span>
         </div>
         <div className={styles.navLinks}>
           <a href="#">
@@ -79,12 +110,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               {session?.user?.name || "Ime i prezime"}
             </span>
           </a>
-          {/* Sada je cijela grupa jedan klikabilni link */}
           <a href="/pomoc-i-podrska" className={styles.helpGroup}>
             <FaQuestionCircle className={styles.icon} />
             <span>Pomoć i podrška</span>
           </a>
-          {/* Gumb za odjavu sadrži i ikonu i tekst */}
           <button onClick={handleSignOutClick} className={styles.signOutGroup}>
             <FaSignOutAlt className={styles.icon} />
             <span>Odjavi se</span>
@@ -125,9 +154,24 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
           {session?.user?.role === "RODITELJ" && (
             <div className={styles.sidebarSection}>
-              <div className={styles.sidebarSectionTitle}>Nastava</div>
-              <a href="/roditelj/ocene">Ocjene djeteta</a>
-              <a href="/roditelj/izostanci">Izostanci djeteta</a>
+              <div className={styles.sidebarSectionTitle}>Moja djeca</div>
+              <div className={styles.childSelectContainer}>
+                  <select
+                    className={styles.childSelect}
+                    value={selectedChild?.id || ''}
+                    onChange={handleChildSelect}
+                  >
+                    <option value="">Odaberite dijete</option>
+                    {parentChildren.map(child => (
+                      <option key={child.id} value={child.id}>{child.name}</option>
+                    ))}
+                  </select>
+              </div>
+              <div className={styles.sidebarSubSection}>
+                <div className={styles.sidebarSectionTitle}>Nastava</div>
+                <a href="/roditelj/ocene">Ocjene djeteta</a>
+                <a href="/roditelj/izostanci">Izostanci djeteta</a>
+              </div>
             </div>
           )}
 
@@ -138,12 +182,20 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <a href="/ucenik/raspored">Moj raspored</a>
             </div>
           )}
-
         </nav>
         <main className={`${styles.content} ${isSidebarOpen ? styles.shifted : ''}`}>
           {children}
         </main>
       </div>
     </>
+  );
+};
+
+// Omotač koji osigurava da je ChildProvider uvijek prisutan
+export default function MainLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ChildProvider>
+      <MainLayoutContent>{children}</MainLayoutContent>
+    </ChildProvider>
   );
 }
