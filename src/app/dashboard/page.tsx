@@ -4,9 +4,9 @@
 import { useState, useEffect } from 'react';
 import styles from '../layout.module.css';
 import { useSession } from 'next-auth/react';
-import { useChild } from '../context/ChildContext'; // Uvozimo useChild hook
+import { useChild } from '../context/ChildContext';
 
-// Dodajemo tipove da riješimo grešku
+// Dodajemo tipove
 type Announcement = {
   id: number;
   title: string;
@@ -21,15 +21,14 @@ type Lesson = {
   description?: string;
 };
 
-// Novi tip koji omogućava indeksiranje sa bilo kojim stringom
 type ChildDataMap<T> = { [key: string]: T[] };
 
 
 export default function DashboardPage() {
   const { data: session } = useSession();
-  const { selectedChild } = useChild(); // Koristimo useChild hook umjesto useState i localStorage
+  const { selectedChild } = useChild();
 
-  // --- MOCK PODACI ZA NASTAVNIKA (postojeci kod) ---
+  // --- MOCK PODACI ZA NASTAVNIKA ---
   const teacherAnnouncements: Announcement[] = [
     { id: 1, title: 'Test iz matematike', content: 'Testiranje znanja iz poglavlja Aritmetika, 8-1 odjeljenje.' },
     { id: 2, title: 'Sastanak s roditeljima', content: 'Sastanak roditelja odjeljenja 8-3 će se održati u srijedu u 18:00h.' },
@@ -60,11 +59,11 @@ export default function DashboardPage() {
     return Math.min(Math.max(progressPercentage, 0), 100);
   };
   
-  // --- MOCK PODACI ZA RODITELJA (novi kod) ---
+  // --- MOCK PODACI ZA RODITELJA ---
   const announcementsByChild: ChildDataMap<Announcement> = {
     'child1': [
       { id: 1, title: 'Izlet za 8-1', content: 'Izlet će se održati 15.10. u Sarajevu.' },
-      { id: 2, title: 'Promjena rasporeda', content: 'U utorak se pomjera čas matematike za Petrov razred.' },
+      { id: 2, title: 'Promjena rasporeda', content: 'U utorak se pomjera čas matematike za Petrove razrede.' },
     ],
     'child2': [
       { id: 1, title: 'Roditeljski sastanak', content: 'Sastanak roditelja odjeljenja 8-2 će se održati u srijedu u 18:00h.' },
@@ -84,12 +83,11 @@ export default function DashboardPage() {
     ],
   };
   
-  // Odlučujemo šta renderovati na osnovu uloge
   const renderDashboardContent = () => {
     if (session?.user?.role === "NASTAVNIK") {
       return (
         <>
-          <h1 className={styles.pageTitle}>Dobar dan, {session?.user?.name || "Nastavniče"}!</h1>
+          <h1 className={styles.pageTitle}>Dobrodošli, {session?.user?.name || "Nastavniče"}!</h1>
           <div className={styles.sectionCard}>
             <h2 className={styles.cardTitle}>Glavna obavještenja</h2>
             {teacherAnnouncements.map(announcement => (
@@ -129,55 +127,65 @@ export default function DashboardPage() {
     }
     
     if (session?.user?.role === "RODITELJ") {
-      if (!selectedChild) {
-        return (
-          <div className={styles.sectionCard}>
-            <p>Molimo odaberite dijete iz padajućeg menija u navigaciji da vidite obavještenja i raspored.</p>
-          </div>
-        );
-      }
       return (
         <>
-          <h1 className={styles.pageTitle}>Dobar dan, {session?.user?.name}!</h1>
-          <h2 className={styles.subtitle}>Trenutno pregledavate: <span className={styles.childName}>{selectedChild.name}</span></h2>
-          <div className={styles.sectionCard}>
-            <h2 className={styles.cardTitle}>Glavna obavještenja</h2>
-            {announcementsByChild[selectedChild.id]?.length > 0 ? (
-              announcementsByChild[selectedChild.id].map(announcement => (
-                <div key={announcement.id} className={styles.announcementItem}>
-                  <h3>{announcement.title}</h3>
-                  <p>{announcement.content}</p>
-                </div>
-              ))
-            ) : (
-              <p>Nema novih obavještenja za odabrano dijete.</p>
-            )}
-          </div>
-          <div className={styles.sectionCard}>
-            <h2 className={styles.cardTitle}>Današnji časovi</h2>
-            {dailyScheduleByChild[selectedChild.id]?.length > 0 ? (
-              <div className={styles.simpleList}>
-                {dailyScheduleByChild[selectedChild.id].map((lesson, index) => (
-                  <div key={index} className={styles.simpleListItem}>
-                    <p className={styles.simpleSubject}>{lesson.subject} - {lesson.department}</p>
-                    <p className={styles.simpleTime}>{lesson.startTime} - {lesson.endTime}</p>
-                  </div>
-                ))}
+          <h1 className={styles.pageTitle}>Dobrodošli, {session?.user?.name || "Roditelju"}!</h1>
+          {selectedChild && (
+            <h2 className={styles.subtitle}>Trenutno pregledavate: <span className={styles.childName}>{selectedChild.name}</span></h2>
+          )}
+          {!selectedChild && (
+            <div className={styles.sectionCard}>
+              <p>Molimo odaberite dijete iz padajućeg menija u navigaciji da vidite obavještenja i raspored.</p>
+            </div>
+          )}
+          {selectedChild && (
+            <>
+              <div className={styles.sectionCard}>
+                <h2 className={styles.cardTitle}>Glavna obavještenja</h2>
+                {announcementsByChild[selectedChild.id]?.length > 0 ? (
+                  announcementsByChild[selectedChild.id].map(announcement => (
+                    <div key={announcement.id} className={styles.announcementItem}>
+                      <h3>{announcement.title}</h3>
+                      <p>{announcement.content}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>Nema novih obavještenja za odabrano dijete.</p>
+                )}
               </div>
-            ) : (
-              <p>Nema časova za danas za odabrano dijete.</p>
-            )}
-          </div>
+              <div className={styles.sectionCard}>
+                <h2 className={styles.cardTitle}>Današnji časovi</h2>
+                {dailyScheduleByChild[selectedChild.id]?.length > 0 ? (
+                  <div className={styles.simpleList}>
+                    {dailyScheduleByChild[selectedChild.id].map((lesson, index) => (
+                      <div key={index} className={styles.simpleListItem}>
+                        <p className={styles.simpleSubject}>{lesson.subject} - {lesson.department}</p>
+                        <p className={styles.simpleTime}>{lesson.startTime} - {lesson.endTime}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Nema časova za danas za odabrano dijete.</p>
+                )}
+              </div>
+            </>
+          )}
         </>
       );
     }
 
     if (session?.user?.role === "UCENIK") {
-      // Slično kao i za nastavnika, ali sa podacima za učenika
       return (
         <>
-          <h1 className={styles.pageTitle}>Dobar dan, {session?.user?.name}!</h1>
-          {/* Ovdje se dodaje sadržaj za učenika */}
+          <h1 className={styles.pageTitle}>Dobrodošli, {session?.user?.name || "Učeniče"}!</h1>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle}>Glavna obavještenja</h2>
+            <p>Nema novih obavještenja.</p>
+          </div>
+          <div className={styles.sectionCard}>
+            <h2 className={styles.cardTitle}>Današnji časovi</h2>
+            <p>Nema časova za danas.</p>
+          </div>
         </>
       );
     }

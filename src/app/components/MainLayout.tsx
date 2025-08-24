@@ -5,26 +5,28 @@ import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import styles from '../layout.module.css';
-import { ChildProvider, useChild } from '../context/ChildContext'; // Uvozimo ChildProvider i useChild
+import { ChildProvider, useChild } from '../context/ChildContext';
 
-// Uvozimo ikone koje ćemo koristiti
+// Uvozimo ikone
 import { FaBars, FaHome, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaQuestionCircle, FaBookOpen } from 'react-icons/fa';
 import { IoNotifications } from "react-icons/io5";
 
-// Komponenta koja se renderuje unutar ChildProvider-a
+// Mock podaci za nastavnika i učenika
+const teacherSchool = 'Druga Gimnazija Sarajevo';
+const studentSchool = 'Srednja elektrotehnička škola';
+
 const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const { selectedChild, setSelectedChild } = useChild();
 
-  // Mock podaci za djecu roditelja
   const parentChildren = [
     { id: 'child1', name: 'Petar Petrović', school: 'Prva osnovna škola' },
     { id: 'child2', name: 'Ana Anić', school: 'Druga osnovna škola' },
   ];
   
-  const [currentSchoolName, setCurrentSchoolName] = useState('Osnovna škola "Ime Škole"');
+  const [currentSchoolName, setCurrentSchoolName] = useState('');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -45,19 +47,21 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
     if (child) {
       setSelectedChild(child);
       localStorage.setItem('selectedChild', JSON.stringify(child));
-      setCurrentSchoolName(child.school);
     } else {
       setSelectedChild(null);
       localStorage.removeItem('selectedChild');
-      setCurrentSchoolName('Osnovna škola "Ime Škole"');
     }
   };
 
   useEffect(() => {
-    if (selectedChild) {
-      setCurrentSchoolName(selectedChild.school);
-    } else if (session?.user?.role !== "RODITELJ") {
-      setCurrentSchoolName('Osnovna škola "Ime Škole"');
+    if (session?.user?.role === "RODITELJ") {
+      setCurrentSchoolName(selectedChild?.school || '');
+    } else if (session?.user?.role === "NASTAVNIK") {
+      setCurrentSchoolName(teacherSchool);
+    } else if (session?.user?.role === "UCENIK") {
+      setCurrentSchoolName(studentSchool);
+    } else {
+      setCurrentSchoolName('');
     }
   }, [selectedChild, session?.user?.role]);
 
@@ -191,7 +195,6 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Omotač koji osigurava da je ChildProvider uvijek prisutan
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <ChildProvider>

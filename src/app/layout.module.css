@@ -533,15 +533,35 @@
   border: 1px solid #e9ecef;
 }
 
+
+.childSelectContainer {
+  position: relative; /* Kreira novi kontekst slaganja */
+  z-index: 10;       /* Postavlja ga iznad ostalih elemenata u sidebar-u */
+  padding: 0 10px;
+}
+
 .childSelect {
   width: 100%;
-  padding: 8px 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   background-color: #f9f9f9;
   cursor: pointer;
-  margin-top: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14c.328.272.858.272 1.186 0l4.315-3.56c.328-.272.098-.79-.189-.79H3.121c-.287 0-.517.518-.189.79l4.115 3.56z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px;
+}
+
+/* Stilovi za fokusiranje */
+.childSelect:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
 }
 
 /* Novi stilovi za roditeljski dashboard */
@@ -579,25 +599,6 @@
 .simpleTime {
   font-size: 0.9em;
   color: #666;
-}
-
-/* ... postojeći stilovi ... */
-
-.childSelectContainer {
-  padding: 10px 20px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  margin: 10px 20px;
-}
-
-.childSelect {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  background-color: #f9f9f9;
-  cursor: pointer;
 }
 
 .subtitle {

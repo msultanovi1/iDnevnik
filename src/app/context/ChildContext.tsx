@@ -1,43 +1,49 @@
 // src/app/context/ChildContext.tsx
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 
-type Child = {
+// Definiramo tip za pojedinačni profil djeteta
+
+type ChildProfile = {
   id: string;
   name: string;
-  school: string;
+  school: string; 
 };
 
+// Definiramo tip za naš kontekst
 type ChildContextType = {
-  selectedChild: Child | null;
-  setSelectedChild: (child: Child | null) => void;
+  children: ChildProfile[];
+  setChildren: Dispatch<SetStateAction<ChildProfile[]>>;
+  selectedChild: ChildProfile | null;
+  setSelectedChild: Dispatch<SetStateAction<ChildProfile | null>>;
 };
 
+// Kreiramo kontekst s početnim vrijednostima
 const ChildContext = createContext<ChildContextType | undefined>(undefined);
 
-export function ChildProvider({ children }: { children: ReactNode }) {
-  const [selectedChild, setSelectedChild] = useState<Child | null>(null);
-
-  useEffect(() => {
-    // Učitava odabir iz localStorage-a pri prvom renderovanju
-    const storedChild = localStorage.getItem('selectedChild');
-    if (storedChild) {
-      setSelectedChild(JSON.parse(storedChild));
-    }
-  }, []);
+// Kreiramo Provider komponentu
+export const ChildProvider = ({ children }: { children: ReactNode }) => {
+  const [childrenList, setChildrenList] = useState<ChildProfile[]>([]);
+  const [selectedChild, setSelectedChild] = useState<ChildProfile | null>(null);
 
   return (
-    <ChildContext.Provider value={{ selectedChild, setSelectedChild }}>
+    <ChildContext.Provider value={{
+      children: childrenList,
+      setChildren: setChildrenList,
+      selectedChild,
+      setSelectedChild,
+    }}>
       {children}
     </ChildContext.Provider>
   );
-}
+};
 
-export function useChild() {
+// Kreiramo custom hook za jednostavnu upotrebu konteksta
+export const useChild = () => {
   const context = useContext(ChildContext);
   if (context === undefined) {
     throw new Error('useChild must be used within a ChildProvider');
   }
   return context;
-}
+};
