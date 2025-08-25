@@ -102,7 +102,7 @@ export default function CalendarPage() {
         >
           <div className={styles.dayNumber}>{day}</div>
           <div className={styles.dayDetails}>
-            {classes.length > 0 ? `${classes.length} čas` : 'Nema časa'}
+            {classes.length > 0 ? `${classes.length} časa` : 'Nema časa'}
           </div>
         </div>
       );

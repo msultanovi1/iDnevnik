@@ -143,7 +143,7 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
           {session?.user?.role === "NASTAVNIK" && (
             <div className={styles.sidebarSection}>
               <div className={styles.sidebarSectionTitle}>Nastava</div>
-              <a href="#">
+              <a href="/razrednistvo" className={pathname === '/razrednistvo' ? styles.active : ''}>
                 <FaBookOpen className={styles.sidebarIcon} />
                 Razredništvo
               </a>
