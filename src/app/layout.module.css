@@ -1,35 +1,34 @@
 /* src/app/layout.module.css */
 
+/* src/app/layout.module.css */
 .header {
-  background-color: #f7f7f7; /* A light gray background for the header */
-  border-bottom: 1px solid #dcdcdc; /* A light gray border at the bottom */
-  color: #333333; /* Dark gray text */
-  padding: 10px 20px 10px 70px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #dcdcdc;
+  color: #333333;
+  padding: 15px 20px 15px 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative; 
+  z-index: 15; 
 }
 
 .logo {
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 27px;
   font-weight: bold;
-}
-
-.logo img {
-  height: 30px; /* Adjust as needed */
-  margin-right: 10px;
+  color: #555;
 }
 
 .navLinks {
   display: flex;
   align-items: center;
+  gap: 40px; 
 }
 
 .navLinks a,
 .navLinks button {
-  margin-left: 20px;
   text-decoration: none;
   color: #333333;
   background: none;
@@ -57,7 +56,7 @@
 /* Main content container */
 .mainContainer {
   display: flex;
-  min-height: calc(100vh - 51px); /* 100vh minus header height */
+  min-height: calc(100vh - 61px); /* 100vh minus header height */
 }
 
 /* Sidebar styles */
@@ -78,7 +77,7 @@
   font-weight: bold;
   color: #999;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .sidebar a {
@@ -116,9 +115,9 @@
 .sidebar {
   /* ... (existing styles) ... */
   position: fixed;
-  top: 51px;
+  top: 61px;
   left: -250px;
-  height: calc(100vh - 51px);
+  height: calc(100vh - 61px);
   width: 250px; /* Set a fixed width for the sidebar */
   background-color: #f0f0f0; /* Add a background color for the sidebar */
   transition: left 0.3s ease-in-out;
@@ -160,3 +159,509 @@
 
 }
 
+.icon {
+  width: 30px;
+  height: 30px;
+  color: #777; /* Primjer: Boja ikona */
+}
+
+/* Stilovi za ikone u bočnom meniju */
+.sidebarIcon {
+  width: 40px;
+  height: 40px;
+  color: #777; /* Primjer: Boja ikona u meniju */
+  margin-right: 10px; /* Razmak između ikone i teksta */
+}
+
+/* Stil za hamburger ikonu */
+.hamburgerButton svg {
+  width: 30px;
+  height: 30px;
+  color: #555;
+}
+
+.userProfile,
+.helpGroup,
+.signOutGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Manji razmak unutar grupa */
+}
+
+.logoIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px; /* Postavite širinu i visinu kruga */
+  height: 40px;
+  background-color: #f78b0f; /* Žuto-narandžasta boja pozadine kruga */
+  border-radius: 50%; /* Ovo čini element krugom */
+  margin-right: 10px;
+}
+
+.logoIcon {
+  color: white; /* Boja ikone, postavljen na bijelu */
+  font-size: 20px; /* Veličina same ikone unutar kruga */
+}
+
+.sidebarDivider {
+  border-top: 1px solid #777; /* Tanka, tamno siva linija */
+  margin: 20px; /* Razmak iznad i ispod linije */
+}
+
+/* Stilovi za dashboard */
+.dashboardContainer {
+  padding: 40px;
+}
+
+.pageTitle {
+  font-size: 2.5em;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.sectionCard {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.announcementItem {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.announcementItem h3 {
+  font-size: 1em;
+  font-weight: 600;
+  color: #333;
+}
+
+.announcementItem p {
+  font-size: 0.9em;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Stilovi za vremensku liniju */
+.timelineContainer {
+  position: relative;
+  height: 50px; /* Visina cijele vremenske linije */
+}
+
+.timelineTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: #e6e9ee; /* Svjetlo siva-plava pozadina */
+  border-radius: 5px;
+  display: flex;
+}
+
+.timelineLesson {
+  position: absolute;
+  height: 100%;
+  background-color: #92a4b8; /* Tamnija siva-plava za časove */
+  border-radius: 5px;
+  border: 1px solid #7c8e9f;
+  padding: 5px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.timelineProgress {
+  position: absolute;
+  top: 100%; /* Pomaknite liniju na dno kontejnera */
+  transform: translateY(10px); /* Pomaknite je 10px ispod dna */
+  left: 0;
+  height: 4px;
+  background-color: #007bff;
+  border-radius: 5px;
+  z-index: 2; /* Ostavljamo z-index za svaki slučaj */
+}
+
+/* ... Postojeći stilovi ... */
+
+.sectionCard {
+  background-color: var(--card-background);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.verticalTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lessonCard {
+  position: relative;
+  display: flex;
+  background-color: var(--lesson-card-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.lessonCard.active {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--active-border-color);
+  transform: translateY(-2px);
+}
+
+.lessonCard.completed {
+  opacity: 0.6;
+}
+
+.lessonProgressBar {
+  width: 8px; /* Širina trake */
+  background-color: var(--progress-color);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: height 0.5s ease-out;
+}
+
+.lessonContent {
+  flex-grow: 1;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lessonSubject {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.lessonDepartment {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+.lessonTime {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+.separator {
+  border: 0;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 10px 0;
+}
+
+.lessonDescription {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  margin-top: 5px;
+}
+
+/* Dodatne varijable za boje, ako već niste definisali */
+:root {
+  --card-background: #fff;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-tertiary: #888;
+  --border-color: #e0e0e0;
+  --progress-color: #4CAF50; /* Zelena boja za progres bar */
+  --active-border-color: #4CAF50;
+  --lesson-card-bg: #f9f9f9;
+}
+
+/* Opšti stilovi za stranicu profila */
+.profilePage {
+  padding: 40px;
+}
+
+.mainInfoCard {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.profileIcon {
+  font-size: 80px;
+  color: #555;
+  margin-right: 20px;
+}
+
+.userInfo h1 {
+  margin: 0;
+  font-size: 2em;
+  font-weight: 600;
+  color: #333;
+}
+
+.userInfo p {
+  margin: 5px 0 0;
+  font-size: 1em;
+  color: #777;
+}
+
+/* Stilovi za sekcije i forme */
+.profileSection {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.profileForm input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submitButton, .addButton, .deleteButton {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton {
+  background-color: #007bff;
+  color: white;
+}
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.addButton {
+  background-color: #28a745;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.addButton:hover {
+  background-color: #218838;
+}
+
+.deleteButton {
+  background-color: transparent;
+  color: #dc3545;
+}
+
+.deleteButton:hover {
+  background-color: #f8d7da;
+}
+
+/* Stilovi za liste */
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #e9ecef;
+}
+
+
+.childSelectContainer {
+  position: relative; /* Kreira novi kontekst slaganja */
+  z-index: 10;       /* Postavlja ga iznad ostalih elemenata u sidebar-u */
+  padding: 0 10px;
+}
+
+.childSelect {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14c.328.272.858.272 1.186 0l4.315-3.56c.328-.272.098-.79-.189-.79H3.121c-.287 0-.517.518-.189.79l4.115 3.56z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px;
+}
+
+/* Stilovi za fokusiranje */
+.childSelect:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
+}
+
+/* Novi stilovi za roditeljski dashboard */
+.subtitle {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.childName {
+  font-weight: bold;
+  color: #333;
+}
+
+.simpleList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.simpleListItem {
+  background-color: #f0f4f7;
+  border: 1px solid #e0e6eb;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.simpleSubject {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.simpleTime {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.childName {
+  font-weight: bold;
+  color: #333;
+}
+
+.simpleList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.simpleListItem {
+  background-color: #f0f4f7;
+  border: 1px solid #e0e6eb;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.simpleSubject {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.simpleTime {
+  font-size: 0.9em;
+  color: #666;
+}
+
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Smanjili smo razmak između stavki */
+}
+
+.infoItem {
+  display: flex; /* Koristimo flexbox za poravnanje */
+  align-items: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  gap: 8px; /* Dodali smo razmak između labele i vrijednosti */
+}
+
+.infoLabel {
+  font-weight: 600;
+  color: #555;
+  font-size: 1.05em;
+  /* Opcionalno, možete dodati min-width da bi labele bile poravnate */
+  min-width: 100px; 
+}
+
+.infoValue {
+  font-weight: 400;
+  color: #333;
+  /* Uklonili smo text-align: right */
+}

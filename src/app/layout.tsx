@@ -1,7 +1,8 @@
 // src/app/layout.tsx
 import './globals.css';
-import NextAuthSessionProvider from './components/providers/SessionProvider';
 import MainLayout from './components/MainLayout';
+import { SessionProvider } from 'next-auth/react';
+import { ChildProvider } from './context/ChildContext';
 
 export default function RootLayout({
   children,
@@ -11,9 +12,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <NextAuthSessionProvider>
-          <MainLayout>{children}</MainLayout>
-        </NextAuthSessionProvider>
+        <SessionProvider>
+          <ChildProvider>
+            <MainLayout>{children}</MainLayout>
+          </ChildProvider>
+        </SessionProvider>
       </body>
     </html>
   );
