@@ -1,14 +1,58 @@
 /* src/app/kalendar/kalendar.module.css */
-
-.calendarContainer {
+.container {
+  max-width: 960px;
+  margin: 0 auto;
   padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 2px solid #eee;
+}
+
+.monthYear {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #004d40;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navArrow {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #00796b;
+  transition: color 0.2s ease-in-out;
+}
+
+.navArrow:hover {
+  color: #004d40;
+}
+
+.daysOfWeek {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  color: #555;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .calendarGrid {
@@ -18,60 +62,55 @@
   text-align: center;
 }
 
-.dayOfWeek {
-  font-weight: bold;
-  color: #a0a0a0;
-  padding: 10px;
-}
-
-.day {
-  border: 1px solid #e0e0e0;
+.dayCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
   border-radius: 8px;
-  padding: 10px;
-  min-height: 100px;
-  position: relative;
-  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border: 1px solid #e0e0e0;
 }
 
 .dayNumber {
-  font-size: 14px;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
+  margin-bottom: 5px;
 }
 
-.currentDay {
-  background-color: #333;
-  color: #fff;
-  border-color: #333;
+.dayDetails {
+  font-size: 0.8rem;
+  color: #666;
 }
 
-.currentDay .dayNumber {
-  color: #fff;
+.dayCell:hover {
+  background-color: #f0f0f0;
 }
 
-.inactiveDay {
-  color: #a0a0a0;
+.passedDay {
+  background-color: #e8f5e9;
+  border-color: #c8e6c9;
 }
 
-.event {
-  font-size: 12px;
-  padding: 5px;
-  border-radius: 4px;
-  margin-top: 5px;
-  text-align: center;
+.futureDay {
+  background-color: #f5f5f5;
+  border-color: #e0e0e0;
 }
 
-.event.classes {
-  background-color: #d4edda;
-  color: #155724;
+.futureDay .dayNumber,
+.futureDay .dayDetails {
+  color: #999;
 }
 
-.event.holiday {
-  background-color: #f8d7da;
-  color: #721c24;
+.noClassDay {
+  background-color: transparent;
+  pointer-events: none;
+  border: none;
 }
 
-.event.stateHoliday {
-  background-color: #cce5ff;
-  color: #004085;
+.today {
+  border: 2px solid #004d40;
+  background-color: #e0f2f1;
 }
