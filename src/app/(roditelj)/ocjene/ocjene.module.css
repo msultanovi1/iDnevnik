@@ -1,0 +1,219 @@
+/* src/app/(roditelj)/ocjene/ocjene.module.css */
+
+.ocjenePage {
+    padding: 2rem;
+}
+
+/* NOVO: Stilovi za zaglavlje s imenom djeteta */
+.childNameHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+.childNameHeader h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.childIcon {
+    font-size: 2rem;
+    color: #4f46e5;
+}
+
+.headerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.semesterSelector {
+    display: flex;
+    gap: 1rem;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.semesterButton {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    background-color: transparent;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.semesterButton:hover {
+    background-color: #e0e0e0;
+}
+
+.semesterButton.active {
+    background-color: #4f46e5;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.overallAverage {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.overallAverage span {
+    color: #4f46e5;
+    font-size: 2rem;
+}
+
+.icon {
+    color: #4f46e5;
+}
+
+.subjectsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.subjectCard {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border-left: 5px solid #4f46e5;
+}
+
+.subjectHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.subjectIcon {
+    font-size: 1.5rem;
+    color: #4f46e5;
+}
+
+.subjectHeader h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.subjectDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.subjectAverage {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.subjectAverage span {
+    font-weight: bold;
+    color: #4f46e5;
+}
+
+.gradesList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.gradeItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 0.5rem;
+}
+
+.gradeItem:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.gradeValue {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.gradeDate {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.noOcjene {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 2rem;
+}
+
+.noOcjeneSubject {
+    color: #888;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Stilovi za boje ocjena */
+.gradeColor5 {
+    color: #22c55e;
+}
+
+.gradeColor4 {
+    color: #84cc16;
+}
+
+.gradeColor3 {
+    color: #f59e0b;
+}
+
+.gradeColor2 {
+    color: #f97316;
+}
+
+.gradeColor1 {
+    color: #ef4444;
+}
+
+/* Responsivni dizajn za mobilne uređaje */
+@media (max-width: 600px) {
+    .ocjenePage {
+        padding: 1rem;
+    }
+
+    .headerContainer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .overallAverage {
+        font-size: 1.2rem;
+    }
+
+    .overallAverage span {
+        font-size: 1.5rem;
+    }
+}

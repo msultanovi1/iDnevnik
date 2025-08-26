@@ -3,12 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from '../layout.module.css';
 import { ChildProvider, useChild } from '../context/ChildContext';
 
 // Uvozimo ikone
-import { FaBars, FaHome, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaQuestionCircle, FaBookOpen } from 'react-icons/fa';
+import { FaBars, FaHome, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaQuestionCircle, FaBookOpen, FaChild, FaStar, FaCalendarTimes } from 'react-icons/fa';
 import { IoNotifications } from "react-icons/io5";
 
 // Mock podaci za nastavnika i učenika
@@ -18,6 +18,7 @@ const studentSchool = 'Srednja elektrotehnička škola';
 const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const { data: session, status } = useSession();
   const { selectedChild, setSelectedChild } = useChild();
 
@@ -41,21 +42,22 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const handleChildSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const childId = e.target.value;
-    const child = parentChildren.find(c => c.id === childId);
-    if (child) {
-      setSelectedChild(child);
-      localStorage.setItem('selectedChild', JSON.stringify(child));
-    } else {
-      setSelectedChild(null);
-      localStorage.removeItem('selectedChild');
-    }
+  // AŽURIRANA FUNKCIJA: Prvo postavi stanje, pa onda preusmjeri
+  const handleChildSelect = (child: { id: string, name: string, school: string }) => {
+    setSelectedChild(child); // Prvo ažuriramo stanje
+    localStorage.setItem('selectedChild', JSON.stringify(child));
+    router.push(`/ocjene?dijete=${child.id}`); // Zatim navigiramo
   };
-
+  
+  // AŽURIRANA USEEFFECT KUKA: Sada samo reaguje na promjenu selectedChild
   useEffect(() => {
     if (session?.user?.role === "RODITELJ") {
-      setCurrentSchoolName(selectedChild?.school || '');
+      // Postavljamo ime škole na osnovu selectedChild-a
+      if (selectedChild) {
+        setCurrentSchoolName(selectedChild.school);
+      } else {
+        setCurrentSchoolName('');
+      }
     } else if (session?.user?.role === "NASTAVNIK") {
       setCurrentSchoolName(teacherSchool);
     } else if (session?.user?.role === "UCENIK") {
@@ -105,7 +107,7 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
           <span>{currentSchoolName}</span>
         </div>
         <div className={styles.navLinks}>
-          <a href="/notifications">
+          <a href="/obavijesti">
             <IoNotifications className={styles.icon} />
           </a>
           <a href="/profil" className={styles.userProfile}>
@@ -159,31 +161,58 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
           {session?.user?.role === "RODITELJ" && (
             <div className={styles.sidebarSection}>
               <div className={styles.sidebarSectionTitle}>Moja djeca</div>
-              <div className={styles.childSelectContainer}>
-                  <select
-                    className={styles.childSelect}
-                    value={selectedChild?.id || ''}
-                    onChange={handleChildSelect}
-                  >
-                    <option value="">Odaberite dijete</option>
-                    {parentChildren.map(child => (
-                      <option key={child.id} value={child.id}>{child.name}</option>
-                    ))}
-                  </select>
-              </div>
               <div className={styles.sidebarSubSection}>
-                <div className={styles.sidebarSectionTitle}>Nastava</div>
-                <a href="/roditelj/ocene">Ocjene djeteta</a>
-                <a href="/roditelj/izostanci">Izostanci djeteta</a>
+                {parentChildren.map(child => (
+                    <a
+                      key={child.id}
+                      href={`/ocjene?dijete=${child.id}`}
+                      className={`${styles.childItem} ${selectedChild?.id === child.id ? styles.active : ''}`}
+                      onClick={(e) => {
+                          e.preventDefault();
+                          handleChildSelect(child);
+                      }}
+                    >
+                      <FaChild className={styles.sidebarIcon} />
+                      {child.name}
+                    </a>
+                ))}
               </div>
+
+              {selectedChild && (
+                <>
+                  <div className={styles.sidebarSubSection}>
+                    <div className={styles.sidebarSectionTitle}>Nastava</div>
+                    <a
+                      href={`/ocjene?dijete=${selectedChild.id}`}
+                      className={pathname.startsWith('/ocjene') ? styles.active : ''}
+                    >
+                      <FaStar className={styles.sidebarIcon} />
+                      Ocjene djeteta
+                    </a>
+                    <a
+                      href={`/izostanci?dijete=${selectedChild.id}`}
+                      className={pathname.startsWith('/izostanci') ? styles.active : ''}
+                    >
+                      <FaCalendarTimes className={styles.sidebarIcon} />
+                      Izostanci djeteta
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
           {session?.user?.role === "UCENIK" && (
             <div className={styles.sidebarSection}>
               <div className={styles.sidebarSectionTitle}>Nastava</div>
-              <a href="/ucenik/ocene">Moje ocjene</a>
-              <a href="/ucenik/raspored">Moj raspored</a>
+              <a href="/ucenik/ocene" className={pathname === '/ucenik/ocene' ? styles.active : ''}>
+                <FaStar className={styles.sidebarIcon} />
+                Moje ocjene
+              </a>
+              <a href="/ucenik/raspored" className={pathname === '/ucenik/raspored' ? styles.active : ''}>
+                <FaCalendarAlt className={styles.sidebarIcon} />
+                Moj raspored
+              </a>
             </div>
           )}
         </nav>
