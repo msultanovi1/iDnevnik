@@ -1,9 +1,9 @@
 // src/app/components/MainLayout.tsx
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styles from '../layout.module.css';
 import { ChildProvider, useChild } from '../context/ChildContext';
 
@@ -16,45 +16,67 @@ const teacherSchool = 'Druga Gimnazija Sarajevo';
 const studentSchool = 'Srednja elektrotehnička škola';
 
 const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedState = localStorage.getItem('isSidebarOpen');
+      return storedState ? JSON.parse(storedState) : true;
+    }
+    return true;
+  });
+  
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session, status } = useSession();
   const { selectedChild, setSelectedChild } = useChild();
 
-  const parentChildren = [
+  const parentChildren = useMemo(() => ([
     { id: 'child1', name: 'Petar Petrović', school: 'Prva osnovna škola' },
     { id: 'child2', name: 'Ana Anić', school: 'Druga osnovna škola' },
-  ];
+  ]), []);
   
   const [currentSchoolName, setCurrentSchoolName] = useState('');
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen((prevState: boolean) => {
+      const newState = !prevState;
+      localStorage.setItem('isSidebarOpen', JSON.stringify(newState));
+      return newState;
+    });
   };
 
   const handleSignOutClick = () => {
     const isConfirmed = window.confirm("Želite li se sigurno odjaviti?");
     if (isConfirmed) {
       localStorage.removeItem('selectedChild');
+      localStorage.removeItem('isSidebarOpen');
       setSelectedChild(null);
       signOut({ callbackUrl: '/auth/signin' });
     }
   };
 
-  // AŽURIRANA FUNKCIJA: Prvo postavi stanje, pa onda preusmjeri
   const handleChildSelect = (child: { id: string, name: string, school: string }) => {
-    setSelectedChild(child); // Prvo ažuriramo stanje
-    localStorage.setItem('selectedChild', JSON.stringify(child));
-    router.push(`/ocjene?dijete=${child.id}`); // Zatim navigiramo
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set('dijete', child.id);
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
-  
-  // AŽURIRANA USEEFFECT KUKA: Sada samo reaguje na promjenu selectedChild
+
+  // ISPRAVLJENO: Koristi se jednostavan a href i useEffect za upravljanje stanjem
   useEffect(() => {
     if (session?.user?.role === "RODITELJ") {
-      // Postavljamo ime škole na osnovu selectedChild-a
-      if (selectedChild) {
-        setCurrentSchoolName(selectedChild.school);
+      const childIdFromUrl = searchParams.get('dijete');
+      
+      const childToSelect = childIdFromUrl 
+          ? parentChildren.find(c => c.id === childIdFromUrl) 
+          : null;
+      
+      // ISPRAVLJENO: Riješena je TypeScript greška i logički bug
+      if (childToSelect !== selectedChild) {
+        setSelectedChild(childToSelect || null);
+      }
+      
+      if (childToSelect) {
+        setCurrentSchoolName(childToSelect.school);
       } else {
         setCurrentSchoolName('');
       }
@@ -65,7 +87,16 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
     } else {
       setCurrentSchoolName('');
     }
-  }, [selectedChild, session?.user?.role]);
+  }, [session?.user?.role, searchParams, parentChildren, setSelectedChild, selectedChild]);
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.role === "RODITELJ" && pathname === '/dashboard' && !searchParams.get('dijete')) {
+      const defaultChild = parentChildren[0];
+      if (defaultChild) {
+        router.replace(`${pathname}?dijete=${defaultChild.id}`);
+      }
+    }
+  }, [status, session, parentChildren, searchParams, router, pathname]);
 
   const authPages = ['/auth/signin', '/auth/signup', '/unauthorized'];
   const isAuthPage = authPages.includes(pathname);
@@ -130,6 +161,7 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
         <nav className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
           <div className={styles.sidebarSection}>
             <div className={styles.sidebarSectionTitle}>Općenito</div>
+            {/* Vraćeno na jednostavan href bez onClick handlera */}
             <a href="/dashboard" className={pathname === '/dashboard' ? styles.active : ''}>
               <FaHome className={styles.sidebarIcon} />
               Početna stranica
