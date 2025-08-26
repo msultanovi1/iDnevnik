@@ -105,7 +105,7 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
           <span>{currentSchoolName}</span>
         </div>
         <div className={styles.navLinks}>
-          <a href="#">
+          <a href="/notifications">
             <IoNotifications className={styles.icon} />
           </a>
           <a href="/profil" className={styles.userProfile}>
