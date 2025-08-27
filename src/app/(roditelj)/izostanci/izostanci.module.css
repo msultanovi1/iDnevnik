@@ -1,0 +1,266 @@
+/* src/app/(roditelj)/izostanci/izostanci.module.css */
+
+.container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.pageTitle {
+    font-size: 2rem;
+    color: #333;
+    margin: 0;
+}
+
+.semesterButtons {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.semesterButton {
+    background-color: #f7f7f7;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid #ddd;
+    font-family: inherit;
+}
+
+.semesterButton:last-child {
+    border-right: none;
+}
+
+.semesterButton.active {
+    background-color: #5558d1; /* Izravno postavite plavu boju */
+    color: white;
+}
+
+.summaryContainer {
+    display: flex;
+    justify-content: space-around;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summaryBox {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+}
+
+.summaryTitle {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.summaryNumber {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.absencesList {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.absenceCard {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cardHeader h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.cardBody {
+    flex-grow: 1;
+}
+
+.cardBody p {
+    margin: 0;
+    line-height: 1.5;
+    color: #555;
+}
+
+.cardFooter {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.statusBadge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.justified {
+    background-color: #4CAF50; /* Green */
+}
+
+.unjustified {
+    background-color: #F44336; /* Red */
+}
+
+.justifyButton {
+    background-color: #5558d1; /* A matching blue-purple */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.justifyButton:hover {
+    background-color: #4346aa;
+}
+
+.emptyState {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    padding: 2rem;
+    grid-column: 1 / -1;
+}
+
+.noChildSelected {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #666;
+    margin-top: 5rem;
+}
+
+/* Modal za pravdanje */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+}
+
+.closeModalButton {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #888;
+}
+
+.modalTitle {
+    font-size: 1.5rem;
+    color: #5558d1;
+    margin-bottom: 1rem;
+}
+
+.justificationForm label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.justificationForm textarea,
+.justificationForm input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.fileLabel {
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 2px dashed #ccc;
+    margin-top: 1rem;
+}
+
+.fileName {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.5rem;
+}
+
+.error {
+    color: red;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.submitButton {
+    background-color: #5558d1;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.submitButton:hover {
+    background-color: #4346aa;
+}

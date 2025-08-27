@@ -212,25 +212,27 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
 
               {selectedChild && (
                 <>
-                  <div className={styles.sidebarSubSection}>
-                    <div className={styles.sidebarSectionTitle}>Nastava</div>
-                    <a
-                      href={`/ocjene?dijete=${selectedChild.id}`}
-                      className={pathname.startsWith('/ocjene') ? styles.active : ''}
-                    >
-                      <FaStar className={styles.sidebarIcon} />
-                      Ocjene djeteta
-                    </a>
-                    <a
-                      href={`/izostanci?dijete=${selectedChild.id}`}
-                      className={pathname.startsWith('/izostanci') ? styles.active : ''}
-                    >
-                      <FaCalendarTimes className={styles.sidebarIcon} />
-                      Izostanci djeteta
-                    </a>
-                  </div>
+                    <div className={styles.sidebarSubSection}>
+                        <div className={styles.sidebarSectionTitle}>Nastava</div>
+                        <a
+                            href={`/ocjene?dijete=${selectedChild.id}`}
+                            className={pathname.startsWith('/ocjene') ? styles.active : ''}
+                        >
+                            <FaStar className={styles.sidebarIcon} />
+                            Ocjene djeteta
+                        </a>
+                        <a
+                            // AŽURIRANA PUTANJA!
+                            href={`/izostanci?dijete=${selectedChild.id}`}
+                            className={pathname.startsWith('/izostanci') ? styles.active : ''}
+                        >
+                            <FaCalendarTimes className={styles.sidebarIcon} />
+                            Izostanci djeteta
+                        </a>
+                    </div>
                 </>
               )}
+
             </div>
           )}
 
