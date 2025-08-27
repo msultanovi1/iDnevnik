@@ -9,9 +9,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; 
-  z-index: 15; 
-}
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Postavite viši z-index kako bi bio iznad svih ostalih elemenata */
+  background-color: white; /* Dodajte pozadinu da sadržaj ispod ne bi bio vidljiv */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} 
 
 .logo {
   display: flex;
@@ -55,6 +59,7 @@
 
 /* Main content container */
 .mainContainer {
+  padding-top: 50px;
   display: flex;
   min-height: calc(100vh - 61px); /* 100vh minus header height */
 }
@@ -113,7 +118,7 @@
 }
 
 .sidebar {
-  /* ... (existing styles) ... */
+  padding-top: 2rem;
   position: fixed;
   top: 61px;
   left: -250px;
@@ -156,7 +161,10 @@
   left: 10px;
   z-index: 20; /* Ensure it's above the sidebar */
   font-size: 24px;
-
+  color: #555;
+  transition: color 0.2s;
+  display: block; /* Pobrinite se da je uvijek vidljiv */
+  margin-right: 1rem;
 }
 
 .icon {
@@ -178,6 +186,10 @@
   width: 30px;
   height: 30px;
   color: #555;
+}
+
+.hamburgerButton:hover {
+  color: #4f46e5;
 }
 
 .userProfile,

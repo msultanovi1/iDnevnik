@@ -1,16 +1,15 @@
-// src/app/(roditelj)/izostanci/page.tsx
 "use client";
 
 import { useSearchParams } from 'next/navigation';
 import { useState, useMemo, useEffect } from 'react';
 import styles from './izostanci.module.css';
+import { FaUserGraduate } from 'react-icons/fa';
 
 interface Child {
     id: string;
     name: string;
 }
 
-// Ispravljeni mock podaci za djecu na temelju vaših ocjena
 const mockChildren: Child[] = [
     { id: 'child1', name: 'Petar Petrović' },
     { id: 'child2', name: 'Ana Anić' },
@@ -30,7 +29,7 @@ interface Absence {
 const mockAbsences: Absence[] = [
     {
         id: 'abs1',
-        childId: 'child2', // Sada je Ana Anić
+        childId: 'child2',
         date: '2025-01-15',
         subject: 'Matematika',
         classPeriod: '1. čas',
@@ -40,7 +39,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs2',
-        childId: 'child2', // Sada je Ana Anić
+        childId: 'child2',
         date: '2025-02-20',
         subject: 'Fizika',
         classPeriod: '2-3. čas',
@@ -50,7 +49,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs7',
-        childId: 'child2', // Sada je Ana Anić
+        childId: 'child2',
         date: '2025-02-25',
         subject: 'Informatika',
         classPeriod: '4. čas',
@@ -60,7 +59,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs3',
-        childId: 'child1', // Sada je Petar Petrović
+        childId: 'child1',
         date: '2025-01-10',
         subject: 'Bosanski jezik',
         classPeriod: '4. čas',
@@ -70,7 +69,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs4',
-        childId: 'child1', // Sada je Petar Petrović
+        childId: 'child1',
         date: '2025-03-05',
         subject: null,
         classPeriod: 'Čitav dan',
@@ -80,7 +79,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs5',
-        childId: 'child2', // Sada je Ana Anić
+        childId: 'child2',
         date: '2025-09-10',
         subject: 'Informatika',
         classPeriod: '5. čas',
@@ -90,7 +89,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs6',
-        childId: 'child1', // Sada je Petar Petrović
+        childId: 'child1',
         date: '2025-10-25',
         subject: 'Biologija',
         classPeriod: '1. čas',
@@ -170,8 +169,14 @@ const IzostanciPage = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.pageHeader}>
-                <h1 className={styles.pageTitle}>Izostanci za: {child.name}</h1>
+            {/* Usklađeno zaglavlje s onim na stranici za ocjene */}
+            <div className={styles.childNameHeader}>
+                <FaUserGraduate className={styles.childIcon} />
+                <h1>Izostanci za: {child.name}</h1>
+            </div>
+
+            {/* Usklađen kontejner za gumbe za polugodište */}
+            <div className={styles.headerContainer}>
                 <div className={styles.semesterButtons}>
                     <button
                         className={`${styles.semesterButton} ${selectedSemester === 1 ? styles.active : ''}`}
@@ -186,21 +191,7 @@ const IzostanciPage = () => {
                         Drugo polugodište
                     </button>
                 </div>
-            </div>
-
-            <div className={styles.summaryContainer}>
-                <div className={styles.summaryBox}>
-                    <h3 className={styles.summaryTitle}>Ukupno izostanaka</h3>
-                    <p className={styles.summaryNumber}>{totalAbsences}</p>
-                </div>
-                <div className={styles.summaryBox}>
-                    <h3 className={styles.summaryTitle}>Opravdanih</h3>
-                    <p className={styles.summaryNumber}>{justifiedAbsences}</p>
-                </div>
-                <div className={styles.summaryBox}>
-                    <h3 className={styles.summaryTitle}>Neopravdanih</h3>
-                    <p className={styles.summaryNumber}>{unjustifiedAbsences}</p>
-                </div>
+                {/* Opcionalno, možete dodati i ukupni zbroj izostanaka ovdje da bude slično kao prosjek */}
             </div>
             
             <div className={styles.absencesList}>

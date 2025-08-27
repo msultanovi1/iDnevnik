@@ -61,7 +61,6 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
-  // ISPRAVLJENO: Koristi se jednostavan a href i useEffect za upravljanje stanjem
   useEffect(() => {
     if (session?.user?.role === "RODITELJ") {
       const childIdFromUrl = searchParams.get('dijete');
@@ -70,7 +69,6 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
           ? parentChildren.find(c => c.id === childIdFromUrl) 
           : null;
       
-      // ISPRAVLJENO: Riješena je TypeScript greška i logički bug
       if (childToSelect !== selectedChild) {
         setSelectedChild(childToSelect || null);
       }
@@ -122,10 +120,10 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <button onClick={toggleSidebar} className={styles.hamburgerButton}>
-        <FaBars />
-      </button>
       <header className={styles.header}>
+        <button onClick={toggleSidebar} className={styles.hamburgerButton}>
+          <FaBars />
+        </button>
         <a href="/dashboard">
           <div className={styles.logo}>
             <div className={styles.logoIconContainer}>
@@ -161,7 +159,6 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
         <nav className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
           <div className={styles.sidebarSection}>
             <div className={styles.sidebarSectionTitle}>Općenito</div>
-            {/* Vraćeno na jednostavan href bez onClick handlera */}
             <a href="/dashboard" className={pathname === '/dashboard' ? styles.active : ''}>
               <FaHome className={styles.sidebarIcon} />
               Početna stranica
@@ -222,7 +219,6 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
                             Ocjene djeteta
                         </a>
                         <a
-                            // AŽURIRANA PUTANJA!
                             href={`/izostanci?dijete=${selectedChild.id}`}
                             className={pathname.startsWith('/izostanci') ? styles.active : ''}
                         >
