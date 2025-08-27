@@ -1,7 +1,9 @@
+// src/app/(roditelj)/izostanci/page.tsx
 "use client";
 
 import { useSearchParams } from 'next/navigation';
 import { useState, useMemo, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import styles from './izostanci.module.css';
 import { FaUserGraduate } from 'react-icons/fa';
 
@@ -17,7 +19,7 @@ const mockChildren: Child[] = [
 
 interface Absence {
     id: string;
-    childId: string;
+    userId: string; // Prilagodba: dodan userId da podrži učenike
     date: string;
     subject: string | null;
     classPeriod: string;
@@ -27,9 +29,10 @@ interface Absence {
 }
 
 const mockAbsences: Absence[] = [
+    // Izostanci za roditelje
     {
         id: 'abs1',
-        childId: 'child2',
+        userId: 'child2',
         date: '2025-01-15',
         subject: 'Matematika',
         classPeriod: '1. čas',
@@ -39,7 +42,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs2',
-        childId: 'child2',
+        userId: 'child2',
         date: '2025-02-20',
         subject: 'Fizika',
         classPeriod: '2-3. čas',
@@ -49,7 +52,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs7',
-        childId: 'child2',
+        userId: 'child2',
         date: '2025-02-25',
         subject: 'Informatika',
         classPeriod: '4. čas',
@@ -59,7 +62,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs3',
-        childId: 'child1',
+        userId: 'child1',
         date: '2025-01-10',
         subject: 'Bosanski jezik',
         classPeriod: '4. čas',
@@ -69,7 +72,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs4',
-        childId: 'child1',
+        userId: 'child1',
         date: '2025-03-05',
         subject: null,
         classPeriod: 'Čitav dan',
@@ -79,7 +82,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs5',
-        childId: 'child2',
+        userId: 'child2',
         date: '2025-09-10',
         subject: 'Informatika',
         classPeriod: '5. čas',
@@ -89,7 +92,7 @@ const mockAbsences: Absence[] = [
     },
     {
         id: 'abs6',
-        childId: 'child1',
+        userId: 'child1',
         date: '2025-10-25',
         subject: 'Biologija',
         classPeriod: '1. čas',
@@ -97,16 +100,32 @@ const mockAbsences: Absence[] = [
         justificationReason: null,
         semester: 2
     },
+    // Izostanci za učenika
+    {
+        id: 'abs8',
+        userId: 'ucenik1',
+        date: '2025-03-15',
+        subject: 'Matematika',
+        classPeriod: '1. čas',
+        isJustified: true,
+        justificationReason: 'Ljekarsko opravdanje',
+        semester: 1
+    },
+    {
+        id: 'abs9',
+        userId: 'ucenik1',
+        date: '2025-04-20',
+        subject: 'Informatika',
+        classPeriod: '2. čas',
+        isJustified: false,
+        justificationReason: null,
+        semester: 1
+    }
 ];
-
-const getAbsencesByChildId = (id: string | null): Absence[] => {
-    if (!id) return [];
-    return mockAbsences.filter(abs => abs.childId === id);
-};
 
 const IzostanciPage = () => {
     const searchParams = useSearchParams();
-    const childId = searchParams.get('dijete');
+    const { data: session } = useSession();
 
     const [selectedSemester, setSelectedSemester] = useState<1 | 2>(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -114,16 +133,46 @@ const IzostanciPage = () => {
     const [justificationText, setJustificationText] = useState('');
     const [justificationFile, setJustificationFile] = useState<File | null>(null);
     const [justificationError, setJustificationError] = useState('');
-
-    const [absences, setAbsences] = useState<Absence[]>([]);
     
-    useEffect(() => {
-        setAbsences(getAbsencesByChildId(childId));
-    }, [childId]);
+    const userRole = session?.user?.role;
+    const currentUserId = session?.user?.id; // Korisnik je Roditelj ili Ucenik
 
-    const child = useMemo(() => {
-        return mockChildren.find(c => c.id === childId);
-    }, [childId]);
+    let absences: Absence[] = [];
+    let headerText: string;
+
+    if (userRole === "RODITELJ") {
+        const childId = searchParams.get('dijete');
+        const child = mockChildren.find(c => c.id === childId);
+        if (!childId || !child) {
+            return (
+                <div className={styles.container}>
+                    <div className={styles.noChildSelected}>
+                        Molimo odaberite dijete iz bočnog menija.
+                    </div>
+                </div>
+            );
+        }
+        absences = mockAbsences.filter(abs => abs.userId === childId);
+        headerText = `Izostanci za: ${child.name}`;
+    } else if (userRole === "UCENIK") {
+        // Pretpostavljamo da je ID učenika 'ucenik1'
+        // U stvarnoj aplikaciji koristili biste session.user.id
+        absences = mockAbsences.filter(abs => abs.userId === 'ucenik1');
+        headerText = "Moji izostanci";
+    } else {
+        return (
+            <div className={styles.container}>
+                <div className={styles.noChildSelected}>
+                    Nemate dozvolu za pristup ovoj stranici.
+                </div>
+            </div>
+        );
+    }
+    
+    const absencesToDisplay = absences.filter(abs => abs.semester === selectedSemester);
+    const totalAbsences = absencesToDisplay.length;
+    const justifiedAbsences = absencesToDisplay.filter(abs => abs.isJustified).length;
+    const unjustifiedAbsences = totalAbsences - justifiedAbsences;
 
     const handleJustifyClick = (absence: Absence) => {
         setJustifyingAbsence(absence);
@@ -152,30 +201,14 @@ const IzostanciPage = () => {
         setJustifyingAbsence(null);
     };
 
-    if (!childId || !child) {
-        return (
-            <div className={styles.container}>
-                <div className={styles.noChildSelected}>
-                    Molimo odaberite dijete iz bočnog menija.
-                </div>
-            </div>
-        );
-    }
-
-    const absencesToDisplay = absences.filter(abs => abs.semester === selectedSemester);
-    const totalAbsences = absencesToDisplay.length;
-    const justifiedAbsences = absencesToDisplay.filter(abs => abs.isJustified).length;
-    const unjustifiedAbsences = totalAbsences - justifiedAbsences;
-
     return (
         <div className={styles.container}>
-            {/* Usklađeno zaglavlje s onim na stranici za ocjene */}
+            {/* Prilagodljivo zaglavlje */}
             <div className={styles.childNameHeader}>
                 <FaUserGraduate className={styles.childIcon} />
-                <h1>Izostanci za: {child.name}</h1>
+                <h1>{headerText}</h1>
             </div>
 
-            {/* Usklađen kontejner za gumbe za polugodište */}
             <div className={styles.headerContainer}>
                 <div className={styles.semesterButtons}>
                     <button
@@ -191,7 +224,6 @@ const IzostanciPage = () => {
                         Drugo polugodište
                     </button>
                 </div>
-                {/* Opcionalno, možete dodati i ukupni zbroj izostanaka ovdje da bude slično kao prosjek */}
             </div>
             
             <div className={styles.absencesList}>
@@ -208,7 +240,8 @@ const IzostanciPage = () => {
                                 <p><strong>Predmet/Čas:</strong> {abs.subject || abs.classPeriod}</p>
                                 <p><strong>Razlog:</strong> {abs.justificationReason || 'Nema unesenog razloga'}</p>
                             </div>
-                            {!abs.isJustified && (
+                            {/* Gumb za pravdanje se prikazuje samo roditeljima i za neopravdane izostanke */}
+                            {userRole === "RODITELJ" && !abs.isJustified && (
                                 <div className={styles.cardFooter}>
                                     <button
                                         onClick={() => handleJustifyClick(abs)}

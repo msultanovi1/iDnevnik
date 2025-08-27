@@ -82,6 +82,19 @@ export default function DashboardPage() {
       { subject: 'Hemija', department: '8-2', startTime: '12:25', endTime: '17:10' },
     ],
   };
+
+  // --- MOCK PODACI ZA UČENIKA ---
+  const studentAnnouncements: Announcement[] = [
+    { id: 1, title: 'Izlet za vaše odjeljenje', content: 'Školski izlet na Bjelašnicu će se održati 20.11.2025.' },
+    { id: 2, title: 'Priprema za test iz biologije', content: 'Svi učenici su obavezni ponijeti sveske s bilješkama za pripremu za test.' },
+  ];
+
+  const studentDailySchedule: Lesson[] = [
+    { subject: 'Fizika', department: '8-3', startTime: '08:00', endTime: '08:45' },
+    { subject: 'Informatika', department: '8-3', startTime: '08:50', endTime: '09:35' },
+    { subject: 'Matematika', department: '8-3', startTime: '09:40', endTime: '10:25' },
+    { subject: 'Bosanski jezik', department: '8-3', startTime: '10:30', endTime: '11:15' },
+  ];
   
   const renderDashboardContent = () => {
     if (session?.user?.role === "NASTAVNIK") {
@@ -180,11 +193,43 @@ export default function DashboardPage() {
           <h1 className={styles.pageTitle}>Dobrodošli, {session?.user?.name || "Učeniče"}!</h1>
           <div className={styles.sectionCard}>
             <h2 className={styles.cardTitle}>Glavna obavještenja</h2>
-            <p>Nema novih obavještenja.</p>
+            {studentAnnouncements.length > 0 ? (
+                studentAnnouncements.map(announcement => (
+                    <div key={announcement.id} className={styles.announcementItem}>
+                        <h3>{announcement.title}</h3>
+                        <p>{announcement.content}</p>
+                    </div>
+                ))
+            ) : (
+                <p>Nema novih obavještenja.</p>
+            )}
           </div>
           <div className={styles.sectionCard}>
             <h2 className={styles.cardTitle}>Današnji časovi</h2>
-            <p>Nema časova za danas.</p>
+            {studentDailySchedule.length > 0 ? (
+                <div className={styles.verticalTimeline}>
+                    {studentDailySchedule.map((lesson, index) => {
+                      const progress = calculateLessonProgress(lesson.startTime, lesson.endTime);
+                      const isActive = progress > 0 && progress < 100;
+                      const isCompleted = progress === 100;
+                      return (
+                        <div 
+                          key={index} 
+                          className={`${styles.lessonCard} ${isActive ? styles.active : ''} ${isCompleted ? styles.completed : ''}`}
+                        >
+                          <div className={styles.lessonProgressBar} style={{ height: `${progress}%` }}></div>
+                          <div className={styles.lessonContent}>
+                            <p className={styles.lessonSubject}>{lesson.subject}</p>
+                            <p className={styles.lessonDepartment}>{lesson.department} odjeljenje</p>
+                            <p className={styles.lessonTime}>{lesson.startTime} - {lesson.endTime}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+            ) : (
+                <p>Nema časova za danas.</p>
+            )}
           </div>
         </>
       );

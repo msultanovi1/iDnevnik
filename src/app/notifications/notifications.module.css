@@ -1,221 +1,219 @@
 /* src/app/notifications/notifications.module.css */
-
 .notificationsContainer {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 1200px; /* Povećana maksimalna širina za širi prikaz */
+    margin: 0 auto; /* Centriranje kontejnera, ali s većom širinom */
+    width: 100%; /* Osigurava da zauzima punu dostupnu širinu unutar max-width */
 }
 
 .pageTitle {
-    color: #333;
     font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 1rem;
 }
 
 .controlsBar {
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap; /* Omogućava prelamanje elemenata na manjim ekranima */
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
 }
 
-.searchBar {
-    position: relative;
-    flex-grow: 1;
-}
-
-.searchBar input {
-    width: 100%;
-    padding: 10px 10px 10px 40px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    font-size: 1rem;
-}
-
-.searchIcon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
-}
-
+.searchBar,
 .dateFilter {
     position: relative;
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Omogućava da zauzme dostupan prostor */
+    min-width: 250px; /* Minimalna širina za bolji prikaz na manjim ekranima */
 }
 
-/* NOVO: Dodani stilovi za React Date Picker */
-.dateFilter .react-datepicker-wrapper {
-    display: block; /* Omogućava da polje zauzima cijeli prostor */
-}
-
-.dateInput {
-    padding: 10px 10px 10px 40px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    font-size: 1rem;
-    color: #555;
-    cursor: pointer;
-    background-color: transparent; /* Da ne bude bijela pozadina */
-    width: 100%;
-}
-
+.searchIcon,
 .dateIcon {
     position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
-    pointer-events: none;
-    z-index: 2; /* Iznad inputa */
+    left: 1rem;
+    color: #9ca3af;
+}
+
+.searchBar input,
+.dateInput {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem; /* Povećan padding lijevo zbog ikone */
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #1f2937;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.searchBar input:focus,
+.dateInput:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
 }
 
 .clearDateButton {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
     background: none;
     border: none;
-    color: #888;
     cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    color: #9ca3af;
     font-size: 1rem;
-    z-index: 3; /* Iznad inputa */
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sortButton {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    background-color: #f0f0f0;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #555;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s;
+    flex-shrink: 0; /* Sprečava da se smanji na manjim ekranima */
 }
 
 .sortButton:hover {
-    background-color: #e0e0e0;
+    background-color: #4338ca;
 }
 
 .notificationList {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    gap: 1rem;
 }
 
 .notificationItem {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #eee;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .notificationItem:hover {
-    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .notificationHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
 }
 
 .notificationTitle {
-    font-weight: bold;
-    color: #333;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .notificationDate {
-    font-size: 0.8rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #6b7280;
 }
 
 .notificationSummary {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.4;
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.5;
 }
 
 .noResults {
     text-align: center;
-    color: #888;
-    padding: 20px;
+    font-size: 1.1rem;
+    color: #6b7280;
+    margin-top: 2rem;
 }
 
-/* Stilovi za modal */
 .modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     z-index: 1000;
 }
 
 .modalContent {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 600px;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     width: 90%;
-    position: relative;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease-out;
+    max-width: 600px;
+    
 }
 
 .closeButton {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 1rem;
+    right: 1rem;
     background: none;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #888;
+    color: #9ca3af;
 }
 
 .modalTitle {
     font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
 }
 
 .modalDate {
     font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
 }
 
 .modalText {
     font-size: 1rem;
     line-height: 1.6;
-    color: #444;
+    color: #4b5563;
     white-space: pre-wrap;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+@media (max-width: 768px) {
+    .controlsBar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .searchBar,
+    .dateFilter {
+        width: 100%;
+        min-width: auto;
+    }
+    .sortButton {
+        width: 100%;
+        justify-content: center;
+    }
 }

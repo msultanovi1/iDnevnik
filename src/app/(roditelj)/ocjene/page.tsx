@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import styles from './ocjene.module.css';
 import { FaBook, FaStar, FaChartBar, FaUserGraduate } from 'react-icons/fa';
 
@@ -12,7 +13,7 @@ const mockGradesData = {
         polugodiste1: [
             { subject: 'Matematika', grades: [{ value: 5, date: '20.09.2024.' }, { value: 4, date: '15.10.2024.' }, { value: 5, date: '21.11.2024.' }] },
             { subject: 'Bosanski jezik', grades: [{ value: 4, date: '05.10.2024.' }, { value: 3, date: '10.11.2024.' }] },
-            { subject: 'Historija', grades: [{ value: 2, date: '01.12.2024.' },  { value: 1, date: '10.12.2024.' },  { value: 4, date: '13.12.2024.' }]},
+            { subject: 'Historija', grades: [{ value: 2, date: '01.12.2024.' }, { value: 1, date: '10.12.2024.' }, { value: 4, date: '13.12.2024.' }] },
             { subject: 'Fizika', grades: [] },
         ],
         polugodiste2: [
@@ -29,6 +30,18 @@ const mockGradesData = {
             { subject: 'Matematika', grades: [{ value: 4, date: '20.03.2025.' }] },
             { subject: 'Biologija', grades: [{ value: 4, date: '10.04.2025.' }] },
         ]
+    },
+    // Mock podaci za učenika
+    ucenik1: {
+        polugodiste1: [
+            { subject: 'Matematika', grades: [{ value: 5, date: '10.10.2024.' }, { value: 4, date: '05.11.2024.' }] },
+            { subject: 'Bosanski jezik', grades: [{ value: 5, date: '20.10.2024.' }, { value: 5, date: '15.11.2024.' }] },
+            { subject: 'Fizika', grades: [{ value: 4, date: '25.10.2024.' }, { value: 3, date: '01.12.2024.' }] },
+        ],
+        polugodiste2: [
+            { subject: 'Matematika', grades: [{ value: 5, date: '10.02.2025.' }] },
+            { subject: 'Engleski jezik', grades: [{ value: 4, date: '05.03.2025.' }] },
+        ]
     }
 };
 
@@ -39,20 +52,34 @@ const mockChildren = [
 
 const OcjenePage = () => {
     const searchParams = useSearchParams();
-    const childId = searchParams.get('dijete') as keyof typeof mockGradesData | null;
+    const { data: session } = useSession();
     const [activeSemester, setActiveSemester] = useState<'polugodiste1' | 'polugodiste2'>('polugodiste1');
 
-    const gradesData = childId && mockGradesData[childId] ? mockGradesData[childId] : null;
-    const selectedChildName = mockChildren.find(c => c.id === childId)?.name;
+    let gradesData;
+    let headerText;
+    const userRole = session?.user?.role;
+    const currentUserId = session?.user?.id;
 
-    if (!childId || !selectedChildName) {
-        return <div className={styles.container}>Molimo odaberite dijete iz menija da vidite ocjene.</div>;
+    if (userRole === "RODITELJ") {
+        const childId = searchParams.get('dijete') as keyof typeof mockGradesData | null;
+        gradesData = childId && mockGradesData[childId] ? mockGradesData[childId] : null;
+        const selectedChildName = mockChildren.find(c => c.id === childId)?.name;
+        headerText = selectedChildName ? `Ocjene za: ${selectedChildName}` : '';
+
+        if (!childId || !selectedChildName) {
+            return <div className={styles.container}>Molimo odaberite dijete iz menija da vidite ocjene.</div>;
+        }
+    } else if (userRole === "UCENIK") {
+        // Pretpostavljamo da je ID učenika 'ucenik1'
+        // U stvarnoj aplikaciji, koristili biste session?.user?.id za dohvat podataka
+        gradesData = mockGradesData['ucenik1'];
+        headerText = "Moje ocjene";
     }
 
     if (!gradesData) {
-        return <div className={styles.container}>Podaci za odabrano dijete nisu pronađeni.</div>;
+        return <div className={styles.container}>Podaci nisu pronađeni.</div>;
     }
-
+    
     const currentSemesterData = gradesData[activeSemester];
 
     // Funkcija za izračunavanje prosjeka po predmetu
@@ -86,10 +113,10 @@ const OcjenePage = () => {
 
     return (
         <div className={styles.ocjenePage}>
-            {/* NOVO: Prikaz imena djeteta */}
+            {/* Prilagodljivi naslov ovisno o ulozi */}
             <div className={styles.childNameHeader}>
                 <FaUserGraduate className={styles.childIcon} />
-                <h1>Ocjene za: {selectedChildName}</h1>
+                <h1>{headerText}</h1>
             </div>
             
             <div className={styles.headerContainer}>

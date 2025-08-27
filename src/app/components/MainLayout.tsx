@@ -136,7 +136,8 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
           <span>{currentSchoolName}</span>
         </div>
         <div className={styles.navLinks}>
-          <a href="/obavijesti">
+          {/* ISPRAVLJENO: Dodan je link koji vodi na stranicu /notifications */}
+          <a href="/notifications" className={styles.iconButton}>
             <IoNotifications className={styles.icon} />
           </a>
           <a href="/profil" className={styles.userProfile}>
@@ -235,11 +236,15 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
           {session?.user?.role === "UCENIK" && (
             <div className={styles.sidebarSection}>
               <div className={styles.sidebarSectionTitle}>Nastava</div>
-              <a href="/ucenik/ocene" className={pathname === '/ucenik/ocene' ? styles.active : ''}>
+              <a href="/ocjene" className={pathname === '/ocjene' ? styles.active : ''}>
                 <FaStar className={styles.sidebarIcon} />
                 Moje ocjene
               </a>
-              <a href="/ucenik/raspored" className={pathname === '/ucenik/raspored' ? styles.active : ''}>
+              <a href="/izostanci" className={pathname === '/izostanci' ? styles.active : ''}>
+                <FaCalendarTimes className={styles.sidebarIcon} />
+                Moji izostanci
+              </a>
+              <a href="/raspored" className={pathname === '/raspored' ? styles.active : ''}>
                 <FaCalendarAlt className={styles.sidebarIcon} />
                 Moj raspored
               </a>
