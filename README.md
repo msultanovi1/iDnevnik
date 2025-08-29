@@ -29,9 +29,10 @@ Otvorite terminal i unesite sljedeće komande:
 ```bash
 node -v
 npm -v
+git --version
 ```
 
-Ako nisu instalirani, posjetite [zvaničnu web stranicu Node.js](https://nodejs.org/en) i preuzmite preporučenu verziju. npm dolazi u paketu s Node.js-om.
+Ako nisu instalirani, posjetite [zvaničnu web stranicu Node.js](https://nodejs.org/en) i preuzmite preporučenu verziju. npm dolazi u paketu s Node.js-om. Za Git, posjetite [zvaničnu web stranicu Git-a](https://git-scm.com/downloads).
 
 #### Rješavanje problema s npm na Windows-u
 
@@ -90,16 +91,21 @@ Nakon što završite s korištenjem aplikacije, možete vratiti sigurnosnu polit
     ```bash
     npm install
     ```
+4.  **Generisanje Prisma klijenta:**
+    Ovaj korak je ključan za povezivanje aplikacije s bazom podataka.
+
+    ```bash
+    npx prisma generate
+    ```
 
 ### Pokretanje aplikacije
 
 Nakon što su zavisnosti instalirane, pokrenite aplikaciju:
 
-- U terminalu pokrenite sljedeće komande:
+- U terminalu pokrenite sljedeću komandu:
 
     ```bash
-    npm run build
-    npm start
+    npm run dev
     ```
 
     Ovo će pokrenuti aplikaciju na adresi `http://localhost:3000`.
