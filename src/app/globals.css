@@ -1,6 +1,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-background: #fff;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-tertiary: #888;
+  --border-color: #e0e0e0;
+  --progress-color: #4CAF50;
+  --active-border-color: #4CAF50;
+  --lesson-card-bg: #f9f9f9;
 }
 
 @media (prefers-color-scheme: dark) {

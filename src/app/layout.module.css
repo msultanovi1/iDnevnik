@@ -402,7 +402,7 @@
 }
 
 /* Dodatne varijable za boje, ako već niste definisali */
-:root {
+.root {
   --card-background: #fff;
   --text-primary: #333;
   --text-secondary: #666;

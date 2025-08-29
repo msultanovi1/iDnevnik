@@ -1,5 +1,5 @@
 // src/app/page.tsx
-import styles from './page.module.css';
+import styles from '../dashboard/page.module.css';
 
 export default function Home() {
   const currentDate = new Date();
