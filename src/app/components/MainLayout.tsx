@@ -8,7 +8,7 @@ import styles from '../layout.module.css';
 import { ChildProvider, useChild } from '../context/ChildContext';
 
 // Uvozimo ikone
-import { FaBars, FaHome, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaQuestionCircle, FaBookOpen, FaChild, FaStar, FaCalendarTimes } from 'react-icons/fa';
+import { FaBars, FaHome, FaCalendarAlt, FaUserCircle, FaSignOutAlt, FaQuestionCircle, FaBookOpen, FaChild, FaStar, FaCalendarTimes, FaGraduationCap } from 'react-icons/fa';
 import { IoNotifications } from "react-icons/io5";
 
 // Mock podaci za nastavnika i učenika
@@ -180,10 +180,19 @@ const MainLayoutContent = ({ children }: { children: React.ReactNode }) => {
                 Razredništvo
               </a>
               <div className={styles.sidebarSubSection}>
-                <div className={styles.sidebarSectionTitle}>Odjeljenja</div>
-                <a href="/odjeljenja/8-1">Odjeljenje 8-1</a>
-                <a href="/odjeljenja/8-2">Odjeljenje 8-2</a>
-                <a href="/odjeljenja/8-3">Odjeljenje 8-3</a>
+                  <div className={styles.sidebarSectionTitle}>Odjeljenja</div>
+                  <a href="/odjeljenja/8-1">
+                      <FaGraduationCap className={styles.sidebarIcon} />
+                      Odjeljenje 8-1
+                  </a>
+                  <a href="/odjeljenja/8-2">
+                      <FaGraduationCap className={styles.sidebarIcon} />
+                      Odjeljenje 8-2
+                  </a>
+                  <a href="/odjeljenja/8-3">
+                      <FaGraduationCap className={styles.sidebarIcon} />
+                      Odjeljenje 8-3
+                  </a>
               </div>
             </div>
           )}
