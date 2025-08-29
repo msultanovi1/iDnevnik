@@ -1,6 +1,6 @@
 /* src/app/razrednistvo/razrednistvo.module.css */
 .container {
-  max-width: 1200px;
+  max-width: none;
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
@@ -17,6 +17,8 @@
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 2px solid #eee;
+  flex-wrap: wrap; /* Omogućava prelamanje na manjim ekranima */
+  gap: 15px;
 }
 
 .pageTitle {
@@ -25,11 +27,37 @@
   color: #004d40;
 }
 
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.searchContainer, .semesterContainer {
+  display: flex;
+  align-items: center;
+}
+
 .searchBar {
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ddd;
   font-size: 1rem;
+}
+
+.semesterLabel {
+  font-weight: 500;
+  color: #555;
+  margin-right: 5px;
+}
+
+.semesterSelect {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .tabs {
@@ -80,6 +108,145 @@
   font-size: 0.9rem;
 }
 
-.studentTable tr:hover {
+.clickableRow {
+  cursor: pointer;
+}
+
+.clickableRow:hover {
   background-color: #f5f5f5;
+}
+
+/* Stilovi za modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease-in-out;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #004d40;
+}
+
+/* Stilovi za odabir polugodišta */
+.semesterDropdownContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.semesterSelect {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+/* Stilovi za prikaz ocjena unutar modala */
+.gradeDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.subjectEntry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.subjectName {
+  font-weight: bold;
+  color: #555;
+}
+
+.subjectGrades {
+  font-style: italic;
+  color: #777;
+}
+
+/* Stilovi za prikaz izostanaka unutar modala */
+.absenceList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.absenceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.absenceDate, .absenceClass {
+  color: #555;
+}
+
+/* Stilovi za bedževe (status) */
+.statusBadge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+
+.opravdano {
+  background-color: #4CAF50;
+}
+
+.neopravdano {
+  background-color: #F44336;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
